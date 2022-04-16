@@ -77,12 +77,9 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Calendar(
-        // onDaySelected: (selectedDay, focusedDay){
-        //   setState(() {
-        //
-        //   });
-        // },
+      body: Container(
+        child: const Calendar(),
+        padding: const EdgeInsets.fromLTRB(10, 0, 10, 60),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,

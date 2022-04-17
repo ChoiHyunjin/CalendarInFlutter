@@ -1,5 +1,5 @@
-import 'package:calendar/src/routes/addSchedule/addSchedule.dart';
-import 'package:calendar/src/widgets/Calendar.dart';
+import 'package:calendar/src/routes/add_schedule/add_schedule.dart';
+import 'package:calendar/src/widgets/calendar.dart';
 import 'package:flutter/material.dart';
 
 void main() {

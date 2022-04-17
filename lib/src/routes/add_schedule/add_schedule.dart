@@ -1,5 +1,6 @@
-import 'package:calendar/src/routes/addSchedule/widgets/inputs/contentInput.dart';
-import 'package:calendar/src/routes/addSchedule/widgets/inputs/titleInput.dart';
+import 'package:calendar/src/routes/add_schedule/widgets/inputs/content_input.dart';
+import 'package:calendar/src/routes/add_schedule/widgets/inputs/date_input.dart';
+import 'package:calendar/src/routes/add_schedule/widgets/inputs/title_input.dart';
 import 'package:flutter/material.dart';
 
 class AddScheduleRoute extends StatefulWidget {
@@ -32,6 +33,7 @@ class _AddScheduleRouteState extends State<AddScheduleRoute> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint(DateTime.utc(2010, 10, 16).toString());
     return Scaffold(
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
@@ -55,6 +57,10 @@ class _AddScheduleRouteState extends State<AddScheduleRoute> {
           const Divider(height: 1, color: Colors.black26),
           ContentInput(
             onChangeText: _onChangeContent,
+          ),
+          const Divider(height: 1, color: Colors.black26),
+          DateInput(
+            // onChangeText: _onChangeContent,
           ),
           const Divider(height: 1, color: Colors.black26),
         ],

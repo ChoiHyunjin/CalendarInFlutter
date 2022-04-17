@@ -44,7 +44,7 @@ class _State extends State<ContentInput> {
                 hintText: '내용 추가',
               ),
               textAlignVertical: TextAlignVertical.center,
-              style: const TextStyle(fontSize: 18),
+              style: const TextStyle(fontSize: 16),
             ),
             height: 60,
             alignment: Alignment.center,

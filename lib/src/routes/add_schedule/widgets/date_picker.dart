@@ -7,16 +7,21 @@ class DatePicker extends StatelessWidget {
   PageController? _pageController;
   final Function(DateTime selected)? onDaySelected;
   final DateTime date;
+  late final DateTime? start;
 
-  DatePicker({Key? key, this.onDaySelected, required this.date})
-      : super(key: key);
+  DatePicker({Key? key, this.onDaySelected, required this.date, this.start})
+      : super(key: key) {
+    debugPrint('DatePicker construct');
+    start ??= DateTime.utc(2010, 10, 16);
+  }
 
   @override
   Widget build(BuildContext context) {
+    var focused = date.isAfter(start!) ? date : start!;
     return Column(
       children: [
         _CalendarHeader(
-          focusedDay: date,
+          focusedDay: focused,
           onLeftArrowTap: () {
             _pageController!.previousPage(
               duration: const Duration(milliseconds: pageDuration),
@@ -32,9 +37,9 @@ class DatePicker extends StatelessWidget {
         ),
         Container(
           child: TableCalendar(
-            firstDay: DateTime.utc(2010, 10, 16),
+            firstDay: start!,
             lastDay: DateTime.utc(2030, 3, 14),
-            focusedDay: date,
+            focusedDay: focused,
             selectedDayPredicate: (selected) {
               return isSameDay(date, selected);
             },
@@ -74,12 +79,24 @@ class _CalendarHeader extends StatefulWidget {
 }
 
 class _CalendarHeaderState extends State<_CalendarHeader> {
-  var _month = 0;
+  late DateTime _focus;
+  late DateTime _min;
 
   @override
   void initState() {
     super.initState();
-    _month = widget.focusedDay.month;
+    _focus = DateTime(widget.focusedDay.year, widget.focusedDay.month);
+    _min = DateTime(widget.focusedDay.year, widget.focusedDay.month);
+  }
+
+  @override
+  void didUpdateWidget(_CalendarHeader old) {
+    if (widget.focusedDay != old.focusedDay) {
+      setState(() {
+        _focus = DateTime(widget.focusedDay.year, widget.focusedDay.month);
+        _min = DateTime(widget.focusedDay.year, widget.focusedDay.month);
+      });
+    }
   }
 
   @override
@@ -90,7 +107,7 @@ class _CalendarHeaderState extends State<_CalendarHeader> {
         SizedBox(
           width: 120.0,
           child: Text(
-            _month.toString() + '월',
+            _focus.month.toString() + '월',
             style: TextStyle(fontSize: 20.0),
           ),
         ),
@@ -98,8 +115,11 @@ class _CalendarHeaderState extends State<_CalendarHeader> {
         IconButton(
           icon: const Icon(Icons.chevron_left),
           onPressed: () {
+            if (_min.isAfter(_focus) || _min.month == _focus.month) return;
             setState(() {
-              _month--;
+              _focus = DateTime(
+                  _focus.month == 1 ? _focus.year - 1 : _focus.year,
+                  _focus.month == 1 ? 12 : _focus.month - 1);
             });
             widget.onLeftArrowTap();
           },
@@ -108,7 +128,9 @@ class _CalendarHeaderState extends State<_CalendarHeader> {
           icon: const Icon(Icons.chevron_right),
           onPressed: () {
             setState(() {
-              _month++;
+              _focus = DateTime(
+                  _focus.month == 12 ? _focus.year + 1 : _focus.year,
+                  _focus.month == 12 ? 1 : _focus.month + 1);
             });
             widget.onRightArrowTap();
           },

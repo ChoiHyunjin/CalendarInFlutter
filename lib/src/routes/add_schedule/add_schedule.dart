@@ -3,6 +3,8 @@ import 'package:calendar/src/routes/add_schedule/widgets/inputs/date_input.dart'
 import 'package:calendar/src/routes/add_schedule/widgets/inputs/title_input.dart';
 import 'package:flutter/material.dart';
 
+enum _Times { NONE, START, END }
+
 class AddScheduleRoute extends StatefulWidget {
   const AddScheduleRoute({Key? key}) : super(key: key);
 
@@ -15,6 +17,9 @@ class AddScheduleRoute extends StatefulWidget {
 class _AddScheduleRouteState extends State<AddScheduleRoute> {
   var _title = '';
   var _content = '';
+  DateTime? _start;
+  DateTime? _end;
+  var _selectedTimeIndex = _Times.NONE;
 
   void _onForcePressEnd(TapUpDetails details) {
     Navigator.pop(context);
@@ -29,6 +34,26 @@ class _AddScheduleRouteState extends State<AddScheduleRoute> {
   void _onChangeContent(String text) {
     debugPrint('text: $text');
     _content = text;
+  }
+
+  void _onStartDaySelected(DateTime time) {
+    setState(() {
+      _start = time;
+    });
+  }
+
+  void _onEndDaySelected(DateTime time) {
+    _end = time;
+  }
+
+  void onDateTap(_Times at) {
+    setState(() {
+      if (_selectedTimeIndex == at) {
+        _selectedTimeIndex = _Times.NONE;
+      } else {
+        _selectedTimeIndex = at;
+      }
+    });
   }
 
   @override
@@ -60,9 +85,17 @@ class _AddScheduleRouteState extends State<AddScheduleRoute> {
           ),
           const Divider(height: 1, color: Colors.black26),
           DateInput(
-            // onChangeText: _onChangeContent,
-          ),
+              title: '시작',
+              onDaySelected: _onStartDaySelected,
+              onDateTap: () => onDateTap(_Times.START),
+              selected: _selectedTimeIndex == _Times.START),
           const Divider(height: 1, color: Colors.black26),
+          DateInput(
+              title: '종료',
+              onDaySelected: _onEndDaySelected,
+              startTime: _start,
+              onDateTap: () => onDateTap(_Times.END),
+              selected: _selectedTimeIndex == _Times.END),
         ],
       ),
     );

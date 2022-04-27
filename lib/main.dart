@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const LoginRoute(title: 'Calendar with Flutter'),
+      home: const HomeRoute(title: 'Calendar with Flutter'),
     );
   }
 }

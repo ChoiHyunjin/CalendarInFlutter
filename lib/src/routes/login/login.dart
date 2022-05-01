@@ -19,18 +19,19 @@ class LoginRoute extends StatefulWidget {
 class _LoginRouteState extends State<LoginRoute> {
   var _error = false;
 
-  void _onLogin(String id, String password){
-    if(users.containsKey(id)){
-      if(users[id] == password){
+  void _onLogin(String id, String password) {
+    if (users.containsKey(id)) {
+      if (users[id] == password) {
         Preference.shared.setId(id);
-        Route home = MaterialPageRoute(builder: (context) => HomeRoute(title: widget.title));
+        Route home = MaterialPageRoute(
+            builder: (context) => HomeRoute(title: widget.title));
         Navigator.pushReplacement(context, home);
-      }else {
+      } else {
         setState(() {
           _error = true;
         });
       }
-    }else {
+    } else {
       setState(() {
         _error = true;
       });

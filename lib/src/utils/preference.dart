@@ -1,4 +1,5 @@
 import 'package:calendar/src/models/schedule.dart';
+import 'package:flutter/widgets.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -6,7 +7,7 @@ class Preference {
   static final Preference shared = Preference._internal();
 
   factory Preference() {
-    return Preference.shared;
+    return shared;
   }
 
   late final Database db;
@@ -14,10 +15,11 @@ class Preference {
 
   Preference._internal() {
     getDatabasesPath().then((res) async {
-      db = await openDatabase(join(res, 'schedules.db'),
+      debugPrint('path: $res');
+      db = await openDatabase(join(await getDatabasesPath(), 'schedules.db'),
           onCreate: (db, version) {
             return db.execute(
-                "CREATE TABLE schedules(id INTEGER PRIMARY KEY, userId TEXT, title TEXT, content TEXT, startYear INTEGER, startMonth INTEGER, startHour INTEGER, startMinute INTEGER, endYear INTEGER, endMonth INTEGER, endHour INTEGER, endMinute INTEGER, people TEXT)");
+                "CREATE TABLE schedules(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, userId TEXT, title TEXT, content TEXT, startYear INTEGER, startMonth INTEGER, startDay INTEGER, startHour INTEGER, startMinute INTEGER, endYear INTEGER, endMonth INTEGER, endDay INTEGER, endHour INTEGER, endMinute INTEGER, people TEXT)");
           }, version: 1);
     });
   }
@@ -37,10 +39,12 @@ class Preference {
   }
 
   Future<void> insert(Schedule schedule) async {
-    db.insert('schedules', schedule.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
+    await db.insert('schedules', schedule.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
   Future<void> update(Schedule schedule) async {
-    db.update('schedules', schedule.toMap(), where: "id = ?", whereArgs: [schedule.id]);
+    await db.update('schedules', schedule.toMap(), where: "id = ?",
+        whereArgs: [schedule.id]);
   }
 }

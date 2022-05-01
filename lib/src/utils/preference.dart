@@ -14,7 +14,11 @@ class Preference {
 
   Preference._internal() {
     getDatabasesPath().then((res) async {
-      db = await openDatabase(join(res, 'schedules.db'));
+      db = await openDatabase(join(res, 'schedules.db'),
+          onCreate: (db, version) {
+            return db.execute(
+                "CREATE TABLE schedules(id INTEGER PRIMARY KEY, userId TEXT, title TEXT, content TEXT, startYear INTEGER, startMonth INTEGER, startHour INTEGER, startMinute INTEGER, endYear INTEGER, endMonth INTEGER, endHour INTEGER, endMinute INTEGER, people TEXT)");
+          }, version: 1);
     });
   }
 
@@ -28,7 +32,15 @@ class Preference {
   }
 
   Future<List<Schedule>> load() async {
-    final List<Map<String, dynamic>> maps = await db.query('schedule');
-    return maps.map((e) => Schedule.from(e));
+    final List<Map<String, dynamic>> maps = await db.query('schedules');
+    return List.generate(maps.length, (index) => Schedule.from(maps[index]));
+  }
+
+  Future<void> insert(Schedule schedule) async {
+    db.insert('schedules', schedule.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  Future<void> update(Schedule schedule) async {
+    db.update('schedules', schedule.toMap(), where: "id = ?", whereArgs: [schedule.id]);
   }
 }

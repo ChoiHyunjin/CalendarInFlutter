@@ -1,19 +1,57 @@
+import 'package:calendar/src/utils/preference.dart';
+
 class Schedule {
-  Schedule({title = '', content = '', DateTime? date, people = ''}) {
-    if (date != null) {
-      _date = date;
+  static Schedule from(Map<String, dynamic> input) {
+    return Schedule(
+      id: input['id'],
+      title: input['title'],
+      content: input['content'],
+    );
+  }
+
+  Schedule(
+      {id = 0,
+      title = '',
+      content = '',
+      DateTime? startDate,
+      DateTime? endDate,
+      people = ''}) {
+    if (startDate != null) {
+      _startDate = startDate;
+    }
+    if (endDate != null) {
+      _endDate = endDate;
     }
     _title = title;
     _people = people;
   }
 
-  clone() =>
-      Schedule(title: _title, content: _content, date: _date, people: _people);
+  clone() => Schedule(
+      id: _id,
+      title: _title,
+      content: _content,
+      startDate: _startDate,
+      people: _people);
 
+  final _id = 0;
+  String _userId = Preference().id;
   var _title = '';
   var _content = '';
-  DateTime _date = DateTime.now();
+  DateTime _startDate = DateTime.now();
+  DateTime _endDate = DateTime.now();
   var _people = '';
+
+  get id {
+    return this._id;
+  }
+
+  get userId {
+    return _userId;
+  }
+
+  set userId(String id) {
+    _userId = id;
+  }
 
   get title {
     return _title;
@@ -23,16 +61,12 @@ class Schedule {
     return _content;
   }
 
-  get date {
-    return _date;
+  get startDate {
+    return _startDate;
   }
 
-  get time {
-    return _date.hour;
-  }
-
-  get minute {
-    return _date.minute;
+  get endDate {
+    return _endDate;
   }
 
   get people {
@@ -42,7 +76,28 @@ class Schedule {
   void updateFrom(Schedule newOne) {
     _title = newOne.title;
     _content = newOne.content;
-    _date = newOne.date;
+    _startDate = newOne.startDate;
+    _endDate = newOne.endDate;
     _people = newOne.people;
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': _id,
+      'userId': _userId,
+      'title': _title,
+      'content': _content,
+      'startYear': _startDate.year,
+      'startMonth': _startDate.month,
+      'startDay': _startDate.day,
+      'startHour': _startDate.hour,
+      'startMinute': _startDate.minute,
+      'endYear': _endDate.year,
+      'endMonth': _endDate.month,
+      'endDay': _endDate.day,
+      'endHour': _endDate.hour,
+      'endMinute': _endDate.minute,
+      'people': _people,
+    };
   }
 }

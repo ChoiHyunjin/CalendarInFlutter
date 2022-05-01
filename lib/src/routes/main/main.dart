@@ -1,4 +1,5 @@
 import 'package:calendar/src/routes/add_schedule/add_schedule.dart';
+import 'package:calendar/src/utils/preference.dart';
 import 'package:calendar/src/widgets/calendar.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +12,10 @@ class HomeRoute extends StatefulWidget {
 }
 
 class _HomeRouteState extends State<HomeRoute> {
+  _HomeRouteState(){
+    Preference.shared;
+  }
+
   void _addSchedule(BuildContext context) {
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => const AddScheduleRoute()));

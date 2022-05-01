@@ -3,10 +3,14 @@ import 'package:calendar/src/utils/preference.dart';
 class Schedule {
   static Schedule from(Map<String, dynamic> input) {
     return Schedule(
-      id: input['id'],
-      title: input['title'],
-      content: input['content'],
-    );
+        id: input['id'],
+        title: input['title'],
+        content: input['content'],
+        startDate: DateTime(input['startYear'], input['startMonth'],
+            input['startDay'], input['startHour'], input['startMinute']),
+        endDate: DateTime(input['endYear'], input['endMonth'], input['endDay'],
+            input['endHour'], input['endMinute']),
+        people: input['people']);
   }
 
   Schedule(
@@ -33,7 +37,7 @@ class Schedule {
       startDate: _startDate,
       people: _people);
 
-  final _id = 0;
+  final _id = -1;
   String userId = Preference().id;
   var _title = '';
   var _content = '';
@@ -75,7 +79,6 @@ class Schedule {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': _id,
       'userId': userId,
       'title': _title,
       'content': _content,

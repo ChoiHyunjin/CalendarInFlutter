@@ -34,7 +34,7 @@ class Schedule {
       people: _people);
 
   final _id = 0;
-  String _userId = Preference().id;
+  String userId = Preference().id;
   var _title = '';
   var _content = '';
   DateTime _startDate = DateTime.now();
@@ -42,15 +42,7 @@ class Schedule {
   var _people = '';
 
   get id {
-    return this._id;
-  }
-
-  get userId {
-    return _userId;
-  }
-
-  set userId(String id) {
-    _userId = id;
+    return _id;
   }
 
   get title {
@@ -84,7 +76,7 @@ class Schedule {
   Map<String, dynamic> toMap() {
     return {
       'id': _id,
-      'userId': _userId,
+      'userId': userId,
       'title': _title,
       'content': _content,
       'startYear': _startDate.year,

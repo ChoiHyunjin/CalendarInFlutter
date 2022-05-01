@@ -1,5 +1,4 @@
 import 'package:calendar/src/models/schedule.dart';
-import 'package:flutter/widgets.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -15,7 +14,6 @@ class Preference {
 
   Preference._internal() {
     getDatabasesPath().then((res) async {
-      debugPrint('path: $res');
       db = await openDatabase(join(await getDatabasesPath(), 'schedules.db'),
           onCreate: (db, version) {
             return db.execute(

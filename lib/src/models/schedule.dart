@@ -21,78 +21,61 @@ class Schedule {
       DateTime? endDate,
       people = ''}) {
     if (startDate != null) {
-      _startDate = startDate;
+      startDate = startDate;
     }
     if (endDate != null) {
-      _endDate = endDate;
+      endDate = endDate;
     }
-    _title = title;
-    _people = people;
+    title = title;
+    people = people;
   }
 
-  clone() => Schedule(
-      id: _id,
-      title: _title,
-      content: _content,
-      startDate: _startDate,
-      people: _people);
+  Schedule clone(int id) {
+    return Schedule(
+        id: id,
+        title: title,
+        content: content,
+        startDate: startDate,
+        endDate: endDate,
+        people: people);
+  }
 
   final _id = -1;
   String userId = Preference().id;
-  var _title = '';
-  var _content = '';
-  DateTime _startDate = DateTime.now();
-  DateTime _endDate = DateTime.now();
-  var _people = '';
+  var title = '';
+  var content = '';
+  DateTime startDate = DateTime.now();
+  DateTime endDate = DateTime.now();
+  var people = '';
 
   get id {
     return _id;
   }
 
-  get title {
-    return _title;
-  }
-
-  get content {
-    return _content;
-  }
-
-  get startDate {
-    return _startDate;
-  }
-
-  get endDate {
-    return _endDate;
-  }
-
-  get people {
-    return _people;
-  }
-
   void updateFrom(Schedule newOne) {
-    _title = newOne.title;
-    _content = newOne.content;
-    _startDate = newOne.startDate;
-    _endDate = newOne.endDate;
-    _people = newOne.people;
+    title = newOne.title;
+    content = newOne.content;
+    startDate = newOne.startDate;
+    endDate = newOne.endDate;
+    people = newOne.people;
   }
 
   Map<String, dynamic> toMap() {
     return {
       'userId': userId,
-      'title': _title,
-      'content': _content,
-      'startYear': _startDate.year,
-      'startMonth': _startDate.month,
-      'startDay': _startDate.day,
-      'startHour': _startDate.hour,
-      'startMinute': _startDate.minute,
-      'endYear': _endDate.year,
-      'endMonth': _endDate.month,
-      'endDay': _endDate.day,
-      'endHour': _endDate.hour,
-      'endMinute': _endDate.minute,
-      'people': _people,
+      'title': title,
+      'content': content,
+      'startYear': startDate.year,
+      'startMonth': startDate.month,
+      'startDay': startDate.day,
+      'startHour': startDate.hour,
+      'startMinute': startDate.minute,
+      'endYear': endDate.year,
+      'endMonth': endDate.month,
+      'endDay': endDate.day,
+      'endHour': endDate.hour,
+      'endMinute': endDate.minute,
+      'people': people,
     };
   }
 }

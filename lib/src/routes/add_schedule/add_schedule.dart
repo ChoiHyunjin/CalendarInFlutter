@@ -1,6 +1,9 @@
+import 'package:calendar/src/models/schedule.dart';
 import 'package:calendar/src/routes/add_schedule/widgets/inputs/content_input.dart';
 import 'package:calendar/src/routes/add_schedule/widgets/inputs/date_input.dart';
 import 'package:calendar/src/routes/add_schedule/widgets/inputs/title_input.dart';
+import 'package:calendar/src/routes/add_schedule/widgets/inputs/user_picker.dart';
+import 'package:calendar/src/utils/preference.dart';
 import 'package:flutter/material.dart';
 
 enum _Times { NONE, START, END }
@@ -15,35 +18,43 @@ class AddScheduleRoute extends StatefulWidget {
 }
 
 class _AddScheduleRouteState extends State<AddScheduleRoute> {
-  var _title = '';
-  var _content = '';
-  DateTime? _start;
-  DateTime? _end;
   var _selectedTimeIndex = _Times.NONE;
+  late Schedule schedule = Schedule();
+
+  _AddScheduleRouteState() {}
 
   void _onForcePressEnd(TapUpDetails details) {
+    if (schedule.id >= 0) {
+      Preference.shared.update(schedule);
+    } else {
+      Preference.shared.insert(schedule);
+    }
+
+    if (schedule.people != '') {
+      var newSchedule = schedule.clone(schedule.id);
+      newSchedule.people = Preference.shared.id;
+      newSchedule.userId = schedule.people;
+      Preference.shared.insert(newSchedule);
+    }
     Navigator.pop(context);
-    debugPrint("_onForcePressEnd");
   }
 
   void _onChangeTitle(String text) {
-    debugPrint('text: $text');
-    _title = text;
+    schedule.title = text;
   }
 
   void _onChangeContent(String text) {
-    debugPrint('text: $text');
-    _content = text;
+    schedule.content = text;
   }
 
   void _onStartDaySelected(DateTime time) {
     setState(() {
-      _start = time;
+      schedule.startDate = time;
     });
   }
 
   void _onEndDaySelected(DateTime time) {
-    _end = time;
+    schedule.endDate = time;
   }
 
   void onDateTap(_Times at) {
@@ -56,9 +67,12 @@ class _AddScheduleRouteState extends State<AddScheduleRoute> {
     });
   }
 
+  void onSelectPeople(String user) {
+    schedule.people = user;
+  }
+
   @override
   Widget build(BuildContext context) {
-    debugPrint(DateTime.utc(2010, 10, 16).toString());
     return Scaffold(
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
@@ -93,9 +107,11 @@ class _AddScheduleRouteState extends State<AddScheduleRoute> {
           DateInput(
               title: '종료',
               onDaySelected: _onEndDaySelected,
-              startTime: _start,
+              startTime: schedule.startDate,
               onDateTap: () => onDateTap(_Times.END),
               selected: _selectedTimeIndex == _Times.END),
+          const Divider(height: 1, color: Colors.black26),
+          UserPicker(onSelect: onSelectPeople)
         ],
       ),
     );

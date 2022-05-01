@@ -1,5 +1,6 @@
 import 'package:calendar/src/routes/login/widgets/login_widget.dart';
 import 'package:calendar/src/routes/main/main.dart';
+import 'package:calendar/src/utils/preference.dart';
 import 'package:flutter/material.dart';
 
 const users = {
@@ -21,6 +22,7 @@ class _LoginRouteState extends State<LoginRoute> {
   void _onLogin(String id, String password){
     if(users.containsKey(id)){
       if(users[id] == password){
+        Preference.shared.setId(id);
         Route home = MaterialPageRoute(builder: (context) => HomeRoute(title: widget.title));
         Navigator.pushReplacement(context, home);
       }else {

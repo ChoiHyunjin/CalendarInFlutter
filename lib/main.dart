@@ -1,6 +1,7 @@
 import 'package:calendar/src/routes/add_schedule/add_schedule.dart';
 import 'package:calendar/src/routes/login/login.dart';
 import 'package:calendar/src/routes/main/main.dart';
+import 'package:calendar/src/utils/preference.dart';
 import 'package:calendar/src/widgets/calendar.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    Preference.shared;
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -28,7 +30,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const HomeRoute(title: 'Calendar with Flutter'),
+      home: const LoginRoute(title: 'Calendar with Flutter'),
     );
   }
 }

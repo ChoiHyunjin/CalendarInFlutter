@@ -3,7 +3,7 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class Preference {
-  static final Preference shared = Preference._internal();
+  static Preference shared = Preference._internal();
 
   factory Preference() {
     return shared;
@@ -44,5 +44,9 @@ class Preference {
   Future<void> update(Schedule schedule) async {
     await db.update('schedules', schedule.toMap(), where: "id = ?",
         whereArgs: [schedule.id]);
+  }
+
+  void reset(){
+    Preference.shared = Preference._internal();
   }
 }

@@ -14,7 +14,7 @@ class HomeRoute extends StatefulWidget {
 
 class _HomeRouteState extends State<HomeRoute> {
   _HomeRouteState() {
-    Preference.shared;
+    Preference.shared.load();
   }
 
   void _addSchedule(BuildContext context) {

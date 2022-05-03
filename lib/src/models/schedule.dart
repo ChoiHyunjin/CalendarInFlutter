@@ -13,6 +13,19 @@ class Schedule {
         people: input['people']);
   }
 
+  static int mergeDate(int year, int month, int day){
+    var res = year.toString();
+    if(month.toString().length < 2){
+      res += '0';
+    }
+    res += month.toString();
+    if(day.toString().length < 2){
+      res += '0';
+    }
+    res += day.toString();
+    return int.parse(res);
+  }
+
   Schedule(
       {id = 0,
       title = '',
@@ -65,26 +78,13 @@ class Schedule {
       'userId': userId,
       'title': title,
       'content': content,
-      'startDate': _mergeDate(startDate.year, startDate.month, startDate.day),
+      'startDate': Schedule.mergeDate(startDate.year, startDate.month, startDate.day),
       'startHour': startDate.hour,
       'startMinute': startDate.minute,
-      'endDate': _mergeDate(endDate.year, endDate.month, endDate.day),
+      'endDate': Schedule.mergeDate(endDate.year, endDate.month, endDate.day),
       'endHour': endDate.hour,
       'endMinute': endDate.minute,
       'people': people,
     };
-  }
-
-  int _mergeDate(int year, int month, int day){
-    var res = year.toString();
-    if(month.toString().length < 2){
-      res += '0';
-    }
-    res += month.toString();
-    if(day.toString().length < 2){
-      res += '0';
-    }
-    res += day.toString();
-    return int.parse(res);
   }
 }

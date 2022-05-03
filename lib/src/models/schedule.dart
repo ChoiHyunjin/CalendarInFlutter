@@ -8,13 +8,13 @@ class Schedule {
         id: input['id'],
         title: input['title'],
         content: input['content'],
-        startDate: DateTime(
+        start: DateTime(
             int.parse(start.substring(0, 4)),
             int.parse(start.substring(4, 6)),
             int.parse(start.substring(6, 8)),
             input['startHour'],
             input['startMinute']),
-        endDate: DateTime(
+        end: DateTime(
             int.parse(end.substring(0, 4)),
             int.parse(end.substring(4, 6)),
             int.parse(end.substring(6, 8)),
@@ -40,17 +40,17 @@ class Schedule {
       {id = 0,
       title = '',
       content = '',
-      DateTime? startDate,
-      DateTime? endDate,
+      DateTime? start,
+      DateTime? end,
       people = ''}) {
-    if (startDate != null) {
-      startDate = startDate;
+    if (start != null) {
+      startDate = start;
     }
-    if (endDate != null) {
-      endDate = endDate;
+    if (end != null) {
+      endDate = end;
     }
-    title = title;
-    people = people;
+    this.title = title;
+    this.people = people;
   }
 
   Schedule clone(int id) {
@@ -58,8 +58,8 @@ class Schedule {
         id: id,
         title: title,
         content: content,
-        startDate: startDate,
-        endDate: endDate,
+        start: startDate,
+        end: endDate,
         people: people);
   }
 

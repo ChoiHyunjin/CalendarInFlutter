@@ -1,3 +1,6 @@
+import 'package:calendar/src/models/schedule.dart';
+import 'package:calendar/src/routes/schedule_list/schedule_list.dart';
+import 'package:calendar/src/utils/preference.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -12,6 +15,14 @@ class _CalendarState extends State<Calendar> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
 
+  _CalendarState() {
+    getSchedules(_focusedDay);
+  }
+
+  void getSchedules(DateTime date) {
+    Preference.shared.loadOn(date.year, date.month);
+  }
+
   @override
   Widget build(BuildContext context) {
     return TableCalendar(
@@ -22,17 +33,12 @@ class _CalendarState extends State<Calendar> {
         return isSameDay(_selectedDay, day);
       },
       onDaySelected: (selectedDay, focusedDay) {
-        setState(() {
-          if(isSameDay(_selectedDay, selectedDay)){
-            _selectedDay = null;
-          }else {
-            _selectedDay = selectedDay;
-          }
-          _focusedDay = focusedDay;
-        });
+        Route listRoute = MaterialPageRoute(
+            builder: (context) => ScheduleListRoute(date: selectedDay));
+        Navigator.push(context, listRoute);
       },
       shouldFillViewport: true,
-
+      onPageChanged: getSchedules,
     );
   }
 }

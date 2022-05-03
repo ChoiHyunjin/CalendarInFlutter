@@ -19,7 +19,7 @@ class Preference {
       db = await openDatabase(join(await getDatabasesPath(), scheduleTable, '.db'),
           onCreate: (db, version) {
         return db.execute(
-            "CREATE TABLE schedules(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, userId TEXT, title TEXT, content TEXT, startYear INTEGER, startMonth INTEGER, startDay INTEGER, startHour INTEGER, startMinute INTEGER, endYear INTEGER, endMonth INTEGER, endDay INTEGER, endHour INTEGER, endMinute INTEGER, people TEXT)");
+            "CREATE TABLE schedules(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, userId TEXT, title TEXT, content TEXT, startDate INTEGER, startHour INTEGER, startMinute INTEGER, endDate INTEGER, endHour INTEGER, endMinute INTEGER, people TEXT)");
       }, version: 1);
     });
   }

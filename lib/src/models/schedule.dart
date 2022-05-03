@@ -65,17 +65,26 @@ class Schedule {
       'userId': userId,
       'title': title,
       'content': content,
-      'startYear': startDate.year,
-      'startMonth': startDate.month,
-      'startDay': startDate.day,
+      'startDate': _mergeDate(startDate.year, startDate.month, startDate.day),
       'startHour': startDate.hour,
       'startMinute': startDate.minute,
-      'endYear': endDate.year,
-      'endMonth': endDate.month,
-      'endDay': endDate.day,
+      'endDate': _mergeDate(endDate.year, endDate.month, endDate.day),
       'endHour': endDate.hour,
       'endMinute': endDate.minute,
       'people': people,
     };
+  }
+
+  int _mergeDate(int year, int month, int day){
+    var res = year.toString();
+    if(month.toString().length < 2){
+      res += '0';
+    }
+    res += month.toString();
+    if(day.toString().length < 2){
+      res += '0';
+    }
+    res += day.toString();
+    return int.parse(res);
   }
 }

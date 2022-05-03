@@ -35,8 +35,15 @@ class Preference {
 
   Future<List<Schedule>> load() async {
     final List<Map<String, dynamic>> maps =
-        await db.query(scheduleTable, where: "userId = ?", whereArgs: [id]);
-    debugPrint('maps: $id, $maps');
+    await db.query(scheduleTable, where: "userId = ?", whereArgs: [id]);
+    debugPrint('load: $id, $maps');
+    return List.generate(maps.length, (index) => Schedule.from(maps[index]));
+  }
+
+  Future<List<Schedule>> loadAt(int date) async {
+    final List<Map<String, dynamic>> maps =
+    await db.query(scheduleTable, where: "userId = ? AND startDate <= ? AND endDate >= ?", whereArgs: [id, date, date]);
+    debugPrint('loadAt: $id, $maps');
     return List.generate(maps.length, (index) => Schedule.from(maps[index]));
   }
 

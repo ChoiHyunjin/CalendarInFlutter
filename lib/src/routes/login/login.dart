@@ -21,16 +21,16 @@ class _LoginRouteState extends State<LoginRoute> {
 
   void _onLogin(String id, String password) {
     if (users.containsKey(id)) {
-      if (users[id] == password) {
+      // if (users[id] == password) {
         Preference.shared.setId(id);
         Route home = MaterialPageRoute(
             builder: (context) => HomeRoute(title: widget.title));
         Navigator.pushReplacement(context, home);
-      } else {
-        setState(() {
-          _error = true;
-        });
-      }
+      // } else {
+      //   setState(() {
+      //     _error = true;
+      //   });
+      // }
     } else {
       setState(() {
         _error = true;

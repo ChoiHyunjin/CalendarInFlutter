@@ -9,7 +9,8 @@ import 'package:flutter/material.dart';
 enum _Times { NONE, START, END }
 
 class AddScheduleRoute extends StatefulWidget {
-  const AddScheduleRoute({Key? key}) : super(key: key);
+  final Function() onRegister;
+  const AddScheduleRoute({Key? key, required this.onRegister}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -36,6 +37,7 @@ class _AddScheduleRouteState extends State<AddScheduleRoute> {
       newSchedule.userId = schedule.people;
       Preference.shared.insert(newSchedule);
     }
+    widget.onRegister();
     Navigator.pop(context);
   }
 
@@ -50,6 +52,9 @@ class _AddScheduleRouteState extends State<AddScheduleRoute> {
   void _onStartDaySelected(DateTime time) {
     setState(() {
       schedule.startDate = time;
+      if(time.isAfter(schedule.endDate)){
+        schedule.endDate = time;
+      }
     });
   }
 

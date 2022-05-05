@@ -13,13 +13,21 @@ class HomeRoute extends StatefulWidget {
 }
 
 class _HomeRouteState extends State<HomeRoute> {
+  final Calendar _calendar = Calendar();
+
   _HomeRouteState() {
     Preference.shared.load();
   }
 
+  void onRegister() {
+    _calendar.getSchedules();
+  }
+
   void _addSchedule(BuildContext context) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const AddScheduleRoute()));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => AddScheduleRoute(onRegister: onRegister)));
   }
 
   void onTapUp(TapUpDetails details) {
@@ -49,7 +57,7 @@ class _HomeRouteState extends State<HomeRoute> {
         ],
       ),
       body: Container(
-        child: const Calendar(),
+        child: _calendar,
         padding: const EdgeInsets.fromLTRB(10, 0, 10, 60),
       ),
       floatingActionButton: FloatingActionButton(

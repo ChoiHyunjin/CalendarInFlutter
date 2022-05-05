@@ -11,7 +11,6 @@ class DatePicker extends StatelessWidget {
 
   DatePicker({Key? key, this.onDaySelected, required this.date, this.start})
       : super(key: key) {
-    debugPrint('DatePicker construct');
     start ??= DateTime.utc(2010, 10, 16);
   }
 

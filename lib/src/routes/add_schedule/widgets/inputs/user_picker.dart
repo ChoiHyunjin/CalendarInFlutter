@@ -25,12 +25,10 @@ class _UserPickerState extends State<UserPicker> {
   }
 
   void onSelectedItemChanged(int index) {
-    debugPrint('select: $index');
     widget.onSelect(user[index]);
   }
 
   void onTapUp(TapUpDetails details) {
-    debugPrint('visible: $visible');
     widget.onSelect(visible ? '': user[0] );
     setState(() {
       visible = !visible;

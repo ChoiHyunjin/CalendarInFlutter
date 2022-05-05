@@ -40,7 +40,7 @@ class _ScheduleListRouteState extends State<ScheduleListRoute> {
           itemBuilder: ((context, index) {
             return Padding(
               padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-              child: ScheduleWidget(schedule: data[index]),
+              child: ScheduleWidget(schedule: data[index], index: index),
             );
           }),
           itemCount: data.length,

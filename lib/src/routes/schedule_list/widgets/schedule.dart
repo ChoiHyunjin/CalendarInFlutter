@@ -1,10 +1,22 @@
 import 'package:calendar/src/models/schedule.dart';
 import 'package:flutter/material.dart';
 
+const colors = [
+  Colors.redAccent,
+  Colors.orangeAccent,
+  Colors.yellowAccent,
+  Colors.greenAccent,
+  Colors.blueAccent,
+  Colors.indigoAccent,
+  Colors.purpleAccent
+];
+
 class ScheduleWidget extends StatelessWidget {
   Schedule schedule;
+  int index;
 
-  ScheduleWidget({Key? key, required this.schedule}) : super(key: key);
+  ScheduleWidget({Key? key, required this.schedule, required this.index})
+      : super(key: key);
 
   String getDateFrom(DateTime date) {
     var res = date.year.toString();
@@ -20,7 +32,7 @@ class ScheduleWidget extends StatelessWidget {
     return Row(
       children: [
         Container(
-          color: Colors.red,
+          color: colors[index % colors.length],
           width: 5.0,
           height: 40.0,
         ),
